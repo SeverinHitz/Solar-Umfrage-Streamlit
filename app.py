@@ -89,6 +89,11 @@ except FileNotFoundError:
     st.error(f"Fragen-Datei '{FRAGEN_DATEI}' nicht gefunden.")
     st.stop()
 
+# Alle Hauptkategorien erfassen (für einheitliche Struktur)
+alle_hauptkategorien = sorted(
+    set(fragen_df["Kategorie A"]).union(set(fragen_df["Kategorie B"]))
+)
+
 # Alle Subkategorien erfassen (für einheitliche Struktur)
 alle_subkategorien = sorted(
     set(fragen_df["Subkategorie A"]).union(set(fragen_df["Subkategorie B"]))
@@ -140,11 +145,9 @@ if st.button("Antworten absenden"):
         st.warning("Bitte wähle einen Stakeholder-Typ aus.")
     else:
         # Auswertung vorbereiten
-        haupt_counts = {
-            "Versorgungsleistungen": 0,
-            "Regulierungsleistungen": 0,
-            "Kulturelle Leistungen": 0,
-        }
+        haupt_counts = {}
+        for kategorie in alle_hauptkategorien:
+            haupt_counts[kategorie] = 0
         sub_counts = {}
 
         for idx, row in fragen_df.iterrows():
