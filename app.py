@@ -36,8 +36,10 @@ def speichere_antwort_in_sheet(antwortzeile):
         sheet = init_gsheet()
         antwort_liste = [str(v) if v is not None else "" for v in antwortzeile.values()]
         existing_rows = sheet.get_all_values()
-        if not existing_rows:
-            sheet.append_row(list(antwortzeile.keys()))
+        if len(existing_rows) == 0 or all(
+            cell.strip() == "" for cell in existing_rows[0]
+        ):
+            sheet.update(range_name="A1", values=[list(antwortzeile.keys())])
         sheet.append_row(antwort_liste)
         return True, None
     except Exception as e:
@@ -80,12 +82,17 @@ def set_button_style():
     )
 
 
-# === LADEN DER FRAGEN ===
+# === FRAGEN LADEN ===
 try:
     fragen_df = pd.read_csv(FRAGEN_DATEI)
 except FileNotFoundError:
     st.error(f"Fragen-Datei '{FRAGEN_DATEI}' nicht gefunden.")
     st.stop()
+
+# Alle Subkategorien erfassen (für einheitliche Struktur)
+alle_subkategorien = sorted(
+    set(fragen_df["Subkategorie A"]).union(set(fragen_df["Subkategorie B"]))
+)
 
 # === UI ===
 st.title("Umfrage: Bedeutung von Landschaftsmerkmalen")
@@ -153,7 +160,7 @@ if st.button("Antworten absenden"):
             haupt_counts[cat] += 1
             sub_counts[sub] = sub_counts.get(sub, 0) + 1
 
-        # Antwortzeile zusammenstellen
+        # Antwortzeile vorbereiten
         antwortzeile = {
             "Zeitstempel": datetime.now().isoformat(),
             "Teilnehmer": nutzer_id,
@@ -162,20 +169,26 @@ if st.button("Antworten absenden"):
             "Regulierungsleistungen": haupt_counts["Regulierungsleistungen"],
             "Kulturelle Leistungen": haupt_counts["Kulturelle Leistungen"],
         }
+
+        # Subkategorie-Zählungen (auch 0-Werte sichern)
+        for sub in alle_subkategorien:
+            antwortzeile[f"Subkategorie: {sub}"] = sub_counts.get(sub, 0)
+
+        # Alle Antworten pro Frage
         antwortzeile.update(antworten)
 
-        # In Sheet speichern
+        # Speichern
         erfolg, fehler = speichere_antwort_in_sheet(antwortzeile)
         if erfolg:
             st.success("Vielen Dank! Deine Antworten wurden gespeichert.")
         else:
             st.error(f"Fehler beim Speichern in Google Sheets: {fehler}")
 
-        # === Visuelle Auswertung ===
+        # === VISUELLE AUSWERTUNG ===
         st.markdown("---")
         st.subheader("🧮 Deine Prioritäten auf einen Blick")
 
-        # 1. Hauptkategorien
+        # Hauptkategorien
         fig1, ax1 = plt.subplots()
         ax1.pie(
             haupt_counts.values(),
@@ -187,7 +200,7 @@ if st.button("Antworten absenden"):
         st.markdown("#### Verteilung der Hauptkategorien")
         st.pyplot(fig1)
 
-        # 2. Subkategorien pro Hauptkategorie
+        # Subkategorien nach Hauptkategorie
         for haupt in haupt_counts.keys():
             subkats = [
                 sub
