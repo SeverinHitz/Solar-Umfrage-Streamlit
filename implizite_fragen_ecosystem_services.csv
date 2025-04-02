@@ -1,36 +1,18 @@
-Frage,Option A,Option B,Zuordnung A,Zuordnung B
-Womit könntest du dich eher anfreunden in deiner Umgebung?,"Ein Bereich, in dem man Futter für Tiere erntet","Ein Bereich, in dem seltene Tiere leben",Provisioning: agriculture,Regulating: emblematic species
-Was spricht dich mehr an?,"Eine Fläche, die frische, kühlere Luft bringt",Ein ruhiger Platz zum Spazierengehen,Regulating: carbon storage,Cultural: recreational
-Was sollte bei einem Umbau in der Landschaft eher erhalten bleiben?,Der freie Blick auf Berge und Täler,"Der natürliche Boden, der Hangwasser aufnimmt",Cultural: picture taking,Provisioning: sediment retention
-Was würdest du eher unterstützen?,Blühflächen für Insekten,Nutzflächen für Heu oder Getreide,Provisioning: pollination,Provisioning: agriculture
-Was macht eine Landschaft für dich sympathisch?,"Wenn sie einlädt, sich draußen zu bewegen",Wenn sie für ein angenehmes Klima sorgt,Cultural: recreational,Regulating: carbon storage
-Was wäre für dich schwerer zu ersetzen?,Offene Wiesen mit Vieh,Rückzugsorte für Wildtiere,Provisioning: agriculture,Regulating: emblematic species
-Worauf würdest du bei Veränderungen in der Umgebung achten?,Dass man weiterhin Lebensmittel erzeugen kann,Dass Tiere und Pflanzen ihren Platz behalten,Provisioning: agriculture,Regulating: habitat quality
-Was beeinflusst für dich das Lebensgefühl mehr?,Dass man sich draußen wohlfühlt,Dass der Ort einen kühlenden Effekt hat,Cultural: recreational,Regulating: carbon storage
-Was fällt dir eher positiv auf?,Viele Bienen und Hummeln,Orte mit wenig Lärm und Bewegung,Provisioning: pollination,Cultural: recreational
-Was wäre dir persönlich wichtiger?,Natürliche Rückzugsorte für Tiere,Aufenthaltsorte für Grillabende und Feste,Regulating: emblematic species,Cultural: recreational
-Was wirkt auf dich gepflegt?,"Geordnete, bewirtschaftete Flächen",Vielseitige Vegetation mit vielen Arten,Provisioning: agriculture,Regulating: habitat quality
-Was würdest du mehr vermissen?,Einen Platz für Sport und Spiel,"Dichte Vegetation, die Schatten spendet",Cultural: recreational,Regulating: carbon storage
-Was beobachtest du lieber?,Tiere in Bewegung,Schöne Landschaften für Fotos,Regulating: emblematic species,Cultural: picture taking
-Was verbindest du mit guter Landschaftspflege?,Nutzung durch den Menschen,Vielfalt für Tiere und Pflanzen,Provisioning: agriculture,Regulating: habitat quality
-"Was würdest du eher dulden, wenn etwas verändert wird?",Weniger Platz für Kühe,Weniger Lebensraum für seltene Arten,Provisioning: agriculture,Regulating: emblematic species
-Was bereichert für dich einen Spaziergang?,Viele summende Insekten,Gute Lichtverhältnisse fürs Fotografieren,Provisioning: pollination,Cultural: picture taking
-Worauf würdest du in deiner Umgebung ungern verzichten?,"Orte, an denen Menschen zusammenkommen","Pflanzen, die CO₂ binden",Cultural: recreational,Regulating: carbon storage
-Was wirkt auf dich belebter?,Eine klassische Weidefläche,Eine blühende Wildwiese,Provisioning: agriculture,Provisioning: pollination
-Was macht eine Landschaft besonders für dich?,Dass man sie nutzen kann,Dass sie artenreich ist,Provisioning: agriculture,Regulating: habitat quality
-Was wäre dir eher unangenehm?,"Ein Ort, an dem es keine Tiere mehr gibt","Ein Ort, der trist und kahl wirkt",Regulating: emblematic species,Cultural: picture taking
-Was findest du spannender?,Ein Ort mit vielen summenden Insekten,Ein Ort mit schöner Aussicht,Provisioning: pollination,Cultural: picture taking
-Was trägt mehr zur Atmosphäre bei?,Viele kleine Tiere und Vögel,"Gepflegte, nutzbare Grünflächen",Regulating: emblematic species,Provisioning: agriculture
-Was beruhigt dich mehr?,Stille Natur mit vielen Pflanzen,Aktive Landschaft mit Menschen,Regulating: habitat quality,Cultural: recreational
-Was würdest du gerne öfter erleben?,Natur mit Tieren,Treffen mit anderen unter freiem Himmel,Regulating: emblematic species,Cultural: recreational
-Was sollte eher gefördert werden?,Erhaltung von Biodiversität,Landwirtschaftliche Produktion,Regulating: habitat quality,Provisioning: agriculture
-Was sollte in einer alpinen Region mit Solaranlagen eher berücksichtigt werden?,Dass wir weiterhin lokal produzieren können,Dass natürliche Prozesse wie Wasser- und Luftregulation erhalten bleiben,Provisioning,Regulating
-Was hat langfristig mehr Einfluss auf die Lebensqualität?,"Orte, an denen man sich gerne aufhält","Orte, die wichtig für Ernährungssicherheit sind",Cultural,Provisioning
-Welche dieser Flächen würdest du eher schützen?,Orte mit seltenen Tieren und Pflanzen,Orte mit hoher Nutzbarkeit für Mensch und Wirtschaft,Regulating,Provisioning
-Was fällt dir stärker auf in der Landschaft?,Ob es Raum für Freizeit gibt,Ob die Natur gesund aussieht,Cultural,Regulating
-Was trägt mehr zu einer lebenswerten Landschaft bei?,Vielfalt an Pflanzen und Tieren,"Flächen, die bewirtschaftet werden",Regulating,Provisioning
-Worauf würdest du persönlich mehr Wert legen?,Schöne Plätze für Freizeitaktivitäten,Orte mit CO₂-speichernder Vegetation,Cultural,Regulating
-Was sollte bei einem neuen Solarprojekt eher erhalten bleiben?,Weideflächen,Lebensräume für Wildtiere,Provisioning,Regulating
-Was verbessert deiner Meinung nach die Region mehr?,Erholungsmöglichkeiten für Familien,Blühflächen für Bestäuber,Cultural,Provisioning
-Was ist für die Zukunft wichtiger?,Erhalt von regionaler Landwirtschaft,Schutz ökologischer Kreisläufe,Provisioning,Regulating
-Was macht eine Landschaft attraktiver?,Pflegeleichte Nutzflächen,"Vielfältige, naturnahe Strukturen",Provisioning,Regulating
+Frage,Option A,Option B,Subkategorie A,Kategorie A,Subkategorie B,Kategorie B
+Was macht für dich eine Landschaft besonders?,sanfte Hügel mit Feldern und Wegen,bunte Blumenwiesen voller Leben,landwirtschaftlich nutzbare Landschaft,Versorgungsleistungen,viele Bestäuber wie Bienen,Versorgungsleistungen
+Worin erkennst du mehr Qualität einer Umgebung?,klare Bäche mit natürlichem Ufer,sanfte Hügel mit Feldern und Wegen,natürliche Ufer mit wenig Bodenerosion,Versorgungsleistungen,landwirtschaftlich nutzbare Landschaft,Versorgungsleistungen
+Was gefällt dir mehr in einer Landschaft?,bunte Blumenwiesen voller Leben,klare Bäche mit natürlichem Ufer,viele Bestäuber wie Bienen,Versorgungsleistungen,natürliche Ufer mit wenig Bodenerosion,Versorgungsleistungen
+Worin erkennst du mehr Qualität einer Umgebung?,"Tiere, die man nur selten sieht",abwechslungsreiche Landschaften mit vielen Rückzugsorten,charakteristische Wildtiere (z. B. Steinbock),Regulierungsleistungen,vielfältige Lebensräume für Tiere & Pflanzen,Regulierungsleistungen
+Was spricht dich stärker an?,abwechslungsreiche Landschaften mit vielen Rückzugsorten,"dichte, alte Bäume in der Landschaft",vielfältige Lebensräume für Tiere & Pflanzen,Regulierungsleistungen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen
+Woran erfreust du dich eher beim Spaziergang?,"Tiere, die man nur selten sieht","dichte, alte Bäume in der Landschaft",charakteristische Wildtiere (z. B. Steinbock),Regulierungsleistungen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen
+Was gefällt dir mehr in einer Landschaft?,Plätze zum Ausruhen und Entdecken,"Blicke, die man nicht vergisst",Orte für Erholung und Entdeckung,Kulturelle Leistungen,fotogene Landschaftsperspektiven,Kulturelle Leistungen
+Was spricht dich stärker an?,"Blicke, die man nicht vergisst",sanfte Hügel mit Feldern und Wegen,fotogene Landschaftsperspektiven,Kulturelle Leistungen,landwirtschaftlich nutzbare Landschaft,Versorgungsleistungen
+Was gefällt dir mehr in einer Landschaft?,Plätze zum Ausruhen und Entdecken,"Tiere, die man nur selten sieht",Orte für Erholung und Entdeckung,Kulturelle Leistungen,charakteristische Wildtiere (z. B. Steinbock),Regulierungsleistungen
+Was gefällt dir mehr in einer Landschaft?,"dichte, alte Bäume in der Landschaft","Blicke, die man nicht vergisst",Kohlenstoffspeichernde Bäume,Regulierungsleistungen,fotogene Landschaftsperspektiven,Kulturelle Leistungen
+Was spricht dich stärker an?,klare Bäche mit natürlichem Ufer,"dichte, alte Bäume in der Landschaft",natürliche Ufer mit wenig Bodenerosion,Versorgungsleistungen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen
+Was gefällt dir mehr in einer Landschaft?,Plätze zum Ausruhen und Entdecken,"dichte, alte Bäume in der Landschaft",Orte für Erholung und Entdeckung,Kulturelle Leistungen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen
+Woran erfreust du dich eher beim Spaziergang?,"dichte, alte Bäume in der Landschaft",sanfte Hügel mit Feldern und Wegen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen,landwirtschaftlich nutzbare Landschaft,Versorgungsleistungen
+Was gefällt dir mehr in einer Landschaft?,bunte Blumenwiesen voller Leben,"dichte, alte Bäume in der Landschaft",viele Bestäuber wie Bienen,Versorgungsleistungen,Kohlenstoffspeichernde Bäume,Regulierungsleistungen
+Worin erkennst du mehr Qualität einer Umgebung?,Plätze zum Ausruhen und Entdecken,sanfte Hügel mit Feldern und Wegen,Orte für Erholung und Entdeckung,Kulturelle Leistungen,landwirtschaftlich nutzbare Landschaft,Versorgungsleistungen
+Was spricht dich stärker an?,"dichte, alte Bäume in der Landschaft",klare Bäche mit natürlichem Ufer,Kohlenstoffspeichernde Bäume,Regulierungsleistungen,natürliche Ufer mit wenig Bodenerosion,Versorgungsleistungen
+Woran erfreust du dich eher beim Spaziergang?,bunte Blumenwiesen voller Leben,Plätze zum Ausruhen und Entdecken,viele Bestäuber wie Bienen,Versorgungsleistungen,Orte für Erholung und Entdeckung,Kulturelle Leistungen
