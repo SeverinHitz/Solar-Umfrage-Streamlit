@@ -104,10 +104,17 @@ def experten_tab():
 
     st.success("Zugang gewährt – bitte CPT-Matrix auswählen und ausfüllen.")
     name = st.text_input("Name (freiwillig):")
-    template_sheet = init_gsheet(CPT_TEMPLATE_SHEET)
-    output_sheet = init_gsheet(CPT_OUTPUT_SHEET)
 
-    # Dropdown mit Klartextnamen
+    try:
+        template_sheet = init_gsheet(CPT_TEMPLATE_SHEET)
+        output_sheet = init_gsheet(CPT_OUTPUT_SHEET)
+    except Exception as e:
+        traceback.print_exc()
+        st.error("Fehler beim Laden der Google Sheets.")
+        return
+
+    st.markdown("---")
+
     reverse_mapping = {v: k for k, v in CPT_MAPPINGS.items()}
     selected_label = st.selectbox(
         "Wähle einen Ecosystem Service", list(CPT_MAPPINGS.values())
@@ -116,43 +123,46 @@ def experten_tab():
 
     try:
         ws = template_sheet.worksheet(sheet_key)
-        st.markdown(f"### Matrix: {selected_label} ({sheet_key})")
-
         df = pd.DataFrame(ws.get_all_values())
+
         df.columns = df.iloc[0]
         df = df[1:]
         df = df.set_index(df.columns[0])
-    except Exception as e:
-        st.error(f"Fehler beim Laden der Matrix '{sheet_key}': {e}")
 
-    try:
-        inputs = {}
-        valid = True
-
-        for row in df.index:
-            inputs[row] = {}
-            cols = df.columns.tolist()
-            row_vals = []
-            for col in cols:
-                val = st.number_input(
-                    f"{sheet_key} – {row} → {col}",
-                    0.0,
-                    1.0,
-                    step=0.01,
-                    key=f"{sheet_key}_{row}_{col}",
-                )
-                inputs[row][col] = val
-                row_vals.append(val)
-
-            if abs(sum(row_vals) - 1.0) > 0.01:
-                valid = False
-                st.error(f"⚠️ Zeile '{row}' summiert sich nicht zu 1.")
+        for col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+        df = df.fillna(0.0)
     except Exception as e:
         traceback.print_exc()
-        st.error(f"Fehler beim Erstellen der Matrix '{sheet_key}': {e}")
+        st.error(f"Fehler beim Laden und Vorverarbeiten der Matrix '{sheet_key}'.")
+        return
 
     try:
-        if valid and st.button(f"Matrix '{selected_label}' absenden"):
+        st.markdown(f"### Matrix: {selected_label} ({sheet_key})")
+        editable_df = st.data_editor(df, key=f"{sheet_key}_editor")
+    except Exception as e:
+        traceback.print_exc()
+        st.error("Fehler beim Anzeigen der bearbeitbaren Matrix.")
+        return
+
+    # Nur prüfen & speichern wenn Button gedrückt wird
+    if st.button(f"Matrix '{selected_label}' absenden"):
+        try:
+            # === Validierung ===
+            valid = True
+            for idx, row in editable_df.iterrows():
+                row_sum = row.sum()
+                if abs(row_sum - 1.0) > 0.01:
+                    valid = False
+                    st.error(
+                        f"⚠️ Zeile '{idx}' summiert sich zu {row_sum:.2f} statt 1.0"
+                    )
+
+            if not valid:
+                st.warning("Bitte korrigiere die Matrix bevor du sie absendest.")
+                return
+
+            # === Flatten & speichern ===
             now = datetime.now().isoformat()
             flat_data = {
                 "Zeit": now,
@@ -160,23 +170,29 @@ def experten_tab():
                 "Matrix": sheet_key,
                 "Service": selected_label,
             }
-            for row in inputs:
-                for col in inputs[row]:
+            for row in editable_df.index:
+                for col in editable_df.columns:
                     key = f"{row} → {col}"
-                    flat_data[key] = inputs[row][col]
+                    flat_data[key] = editable_df.loc[row, col]
 
-            sheet = output_sheet.worksheet(sheet_key)
+            try:
+                sheet = output_sheet.worksheet(sheet_key)
+            except gspread.exceptions.WorksheetNotFound:
+                sheet = output_sheet.add_worksheet(
+                    title=sheet_key, rows="100", cols="30"
+                )
+
             headers = sheet.row_values(1)
             if not headers:
                 sheet.append_row(list(flat_data.keys()))
-            sheet.append_row(
-                [flat_data.get(h, "") for h in headers or flat_data.keys()]
-            )
+                headers = flat_data.keys()
+
+            sheet.append_row([flat_data.get(h, "") for h in headers])
             st.success(f"Matrix '{selected_label}' erfolgreich gespeichert!")
 
-    except Exception as e:
-        traceback.print_exc()
-        st.error(f"Fehler beim Laden der Matrix '{sheet_key}': {e}")
+        except Exception as e:
+            traceback.print_exc()
+            st.error("Fehler beim Verarbeiten oder Speichern der Matrix.")
 
 
 # === HAUPTTAB ===
@@ -208,8 +224,9 @@ def umfrage_tab():
             "Bitte auswählen",
             "Anwohnende:r",
             "Landwirt:in",
-            "Planer:in",
             "Tourist:in",
+            "Experte:in",
+            "Naturschützer:in",
             "Andere",
         ],
     )
