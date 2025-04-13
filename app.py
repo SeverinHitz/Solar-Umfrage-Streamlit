@@ -94,16 +94,26 @@ def set_button_style():
     )
 
 
+# === Consens-Tab ===
+def consent_tab():
+    st.subheader("✅ Zustimmung zur Umfrage")
+
+    try:
+        with open("consent_text_de.md", "r", encoding="utf-8") as file:
+            consent_md = file.read()
+        st.markdown(consent_md)
+    except FileNotFoundError:
+        st.warning("Consent-Datei 'consent_text.md' nicht gefunden.")
+        st.stop()
+    st.markdown("---")
+    st.session_state["consent_given"] = st.checkbox(
+        "Ich habe den obigen Text gelesen und stimme zu."
+    )
+
+
 # === CPT MATRIX TAB ===
 def experten_tab():
     st.subheader("🔐 Experten-Zugang")
-    pw = st.text_input("Passwort", type="password")
-    if pw != EXPERTEN_PASSWORT:
-        st.warning("Bitte Passwort eingeben.")
-        return
-
-    st.success("Zugang gewährt – bitte CPT-Matrix auswählen und ausfüllen.")
-    name = st.text_input("Name (freiwillig):")
 
     try:
         template_sheet = init_gsheet(CPT_TEMPLATE_SHEET)
@@ -150,12 +160,12 @@ def experten_tab():
         try:
             # === Validierung ===
             valid = True
-            for idx, row in editable_df.iterrows():
-                row_sum = row.sum()
-                if abs(row_sum - 1.0) > 0.01:
+            for col in editable_df.columns:
+                col_sum = editable_df[col].sum()
+                if abs(col_sum - 1.0) > 0.01:
                     valid = False
                     st.error(
-                        f"⚠️ Zeile '{idx}' summiert sich zu {row_sum:.2f} statt 1.0"
+                        f"⚠️ Spalte '{col}' summiert sich zu {col_sum:.2f} statt 1.0"
                     )
 
             if not valid:
@@ -166,7 +176,6 @@ def experten_tab():
             now = datetime.now().isoformat()
             flat_data = {
                 "Zeit": now,
-                "Name": name,
                 "Matrix": sheet_key,
                 "Service": selected_label,
             }
@@ -195,7 +204,7 @@ def experten_tab():
             st.error("Fehler beim Verarbeiten oder Speichern der Matrix.")
 
 
-# === HAUPTTAB ===
+# === Public Tab ===
 def umfrage_tab():
     try:
         fragen_df = pd.read_csv(FRAGEN_DATEI)
@@ -217,19 +226,6 @@ def umfrage_tab():
     )
 
     st.subheader("Allgemeine Informationen")
-    nutzer_id = st.text_input("Deine ID oder Initialen (freiwillig):")
-    stakeholder_typ = st.selectbox(
-        "Ich bin ...",
-        [
-            "Bitte auswählen",
-            "Anwohnende:r",
-            "Landwirt:in",
-            "Tourist:in",
-            "Experte:in",
-            "Naturschützer:in",
-            "Andere",
-        ],
-    )
 
     st.markdown("---")
     st.subheader("Fragen")
@@ -268,8 +264,7 @@ def umfrage_tab():
 
             antwortzeile = {
                 "Zeitstempel": datetime.now().isoformat(),
-                "Teilnehmer": nutzer_id,
-                "Stakeholder": stakeholder_typ,
+                "Stakeholder": st.session_state["stakeholder_typ"],
                 "Versorgungsleistungen": haupt_counts["Versorgungsleistungen"],
                 "Regulierungsleistungen": haupt_counts["Regulierungsleistungen"],
                 "Kulturelle Leistungen": haupt_counts["Kulturelle Leistungen"],
@@ -321,9 +316,62 @@ def umfrage_tab():
                     st.pyplot(fig)
 
 
-# === TABS ===
-tab1, tab2 = st.tabs(["🌿 Umfrage", "📊 Experten (CPT-Matrix)"])
-with tab1:
-    umfrage_tab()
-with tab2:
-    experten_tab()
+# === AUSWAHL STAKEHOLDER TYP ===
+st.title("🌍 Teilnahme an der Umfrage")
+stakeholder_typ = st.selectbox(
+    "Bitte wähle deine Rolle:",
+    [
+        "Bitte auswählen",
+        "Anwohnende:r",
+        "Landwirt:in",
+        "Tourist:in",
+        "Experte:in",
+        "Naturschützer:in",
+        "Andere",
+    ],
+)
+
+# Speichere Auswahl
+st.session_state["stakeholder_typ"] = stakeholder_typ
+
+# === EXPERTENPFAD ===
+if stakeholder_typ == "Experte:in":
+    pw = st.text_input("🔐 Bitte gib das Expertenpasswort ein:", type="password")
+    if pw != EXPERTEN_PASSWORT:
+        st.warning("Bitte korrektes Passwort eingeben.")
+    else:
+        try:
+            with open("consent_expert_de.md", "r", encoding="utf-8") as file:
+                consent_md = file.read()
+            st.markdown(consent_md)
+        except FileNotFoundError:
+            st.warning("Consent-Datei für Experten nicht gefunden.")
+            st.stop()
+
+        st.markdown("---")
+
+        st.session_state["consent_given"] = st.checkbox(
+            "Ich habe den obigen Text gelesen und stimme als Experte:in zu."
+        )
+
+        if st.session_state.get("consent_given"):
+            experten_tab()
+
+# === PUBLIC-PFAD ===
+elif stakeholder_typ != "Bitte auswählen":
+    try:
+        with open("consent_public_de.md", "r", encoding="utf-8") as file:
+            consent_md = file.read()
+        st.markdown(consent_md)
+    except FileNotFoundError:
+        st.warning("Consent-Datei für Public nicht gefunden.")
+        st.stop()
+
+    st.markdown("---")
+
+    st.session_state["consent_given"] = st.checkbox(
+        "Ich habe den obigen Text gelesen und stimme als Umfrageteilnehmer:in zu."
+    )
+
+    if st.session_state.get("consent_given"):
+        umfrage_tab()
