@@ -16,12 +16,12 @@ EXPERTEN_PASSWORT = "Solar"
 # CPT-Kürzel → Klartextname (Dropdown-Anzeige)
 CPT_MAPPINGS = {
     "SR": "Sediment retention",
-    "FF": "Suitability for Agriculture",
+    # "FF": "Suitability for Agriculture",
     "POL": "Pollinator abundance",
-    "REC": "Recreational potential",
-    "LI": "Picture taking",
+    # "REC": "Recreational potential",
+    # "LI": "Picture taking",
     "ID": "Emblematic species",
-    "CAR": "Carbon stored biomass",
+    # "CAR": "Carbon stored biomass",
     "HAB": "Habitat quality",
 }
 
@@ -112,6 +112,7 @@ def consent_tab():
 
 
 # === CPT MATRIX TAB ===
+# === CPT MATRIX TAB ===
 def experten_tab():
     st.subheader("🔐 Experten-Zugang")
 
@@ -138,10 +139,6 @@ def experten_tab():
         df.columns = df.iloc[0]
         df = df[1:]
         df = df.set_index(df.columns[0])
-
-        for col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
-        df = df.fillna(0.0)
     except Exception as e:
         traceback.print_exc()
         st.error(f"Fehler beim Laden und Vorverarbeiten der Matrix '{sheet_key}'.")
@@ -149,56 +146,49 @@ def experten_tab():
 
     try:
         st.markdown(f"### Matrix: {selected_label} ({sheet_key})")
-        editable_df = st.data_editor(df, key=f"{sheet_key}_editor")
+
+        selection = {}
+        for col in df.columns:
+            st.markdown(
+                f"**Wie schätzt du die Auswirkungen ein, wenn der dargebotene Ecosystem Service `{selected_label}` `{col}` ist?**"
+            )
+            zeilenoptionen = df.index.tolist()
+            # Default: erste Option ausgewählt
+            selection[col] = st.radio(
+                label=f"Auswirkung bei '{col}'",
+                options=zeilenoptionen,
+                key=f"radio_{sheet_key}_{col}",
+                index=None,
+            )
     except Exception as e:
         traceback.print_exc()
-        st.error("Fehler beim Anzeigen der bearbeitbaren Matrix.")
+        st.error("Fehler beim Anzeigen der Matrixfragen.")
         return
 
-    # Nur prüfen & speichern wenn Button gedrückt wird
     if st.button(f"Matrix '{selected_label}' absenden"):
         try:
-            # === Validierung ===
-            valid = True
-            for col in editable_df.columns:
-                col_sum = editable_df[col].sum()
-                if abs(col_sum - 1.0) > 0.01:
-                    valid = False
-                    st.error(
-                        f"⚠️ Spalte '{col}' summiert sich zu {col_sum:.2f} statt 1.0"
-                    )
-
-            if not valid:
-                st.warning("Bitte korrigiere die Matrix bevor du sie absendest.")
-                return
-
-            # === Flatten & speichern ===
             now = datetime.now().isoformat()
-            flat_data = {
+            antwortzeile = {
                 "Zeit": now,
                 "Matrix": sheet_key,
-                "Service": selected_label,
             }
-            for row in editable_df.index:
-                for col in editable_df.columns:
-                    key = f"{row} → {col}"
-                    flat_data[key] = editable_df.loc[row, col]
+            for col in df.columns:
+                antwortzeile[col] = selection[col]
 
             try:
-                sheet = output_sheet.worksheet(sheet_key)
+                sheet = output_sheet.worksheet("Antworten")
             except gspread.exceptions.WorksheetNotFound:
                 sheet = output_sheet.add_worksheet(
-                    title=sheet_key, rows="100", cols="30"
+                    title="Antworten", rows="100", cols="30"
                 )
 
             headers = sheet.row_values(1)
             if not headers:
-                sheet.append_row(list(flat_data.keys()))
-                headers = flat_data.keys()
+                sheet.append_row(list(antwortzeile.keys()))
+                headers = list(antwortzeile.keys())
 
-            sheet.append_row([flat_data.get(h, "") for h in headers])
+            sheet.append_row([antwortzeile.get(h, "") for h in headers])
             st.success(f"Matrix '{selected_label}' erfolgreich gespeichert!")
-
         except Exception as e:
             traceback.print_exc()
             st.error("Fehler beim Verarbeiten oder Speichern der Matrix.")
@@ -351,7 +341,7 @@ if stakeholder_typ == "Experte:in":
         st.markdown("---")
 
         st.session_state["consent_given"] = st.checkbox(
-            "Ich habe den obigen Text gelesen und stimme als Experte:in zu."
+            "Ich habe den obigen Text gelesen und stimme als Umfrageteilnehmer:in zu."
         )
 
         if st.session_state.get("consent_given"):
