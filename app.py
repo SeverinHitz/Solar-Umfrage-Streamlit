@@ -375,9 +375,7 @@ elif stakeholder_typ != "Bitte auswählen":
 
     st.markdown("---")
 
-    st.session_state["consent_given"] = st.checkbox(
-        "Ich habe den obigen Text gelesen und stimme als Umfrageteilnehmer:in zu."
-    )
+    st.session_state["consent_given"] = st.checkbox("Einverstanden")
 
     if st.session_state.get("consent_given"):
         umfrage_tab()
