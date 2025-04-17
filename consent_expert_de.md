@@ -14,7 +14,7 @@ Diese Studie wurde von der ETH-Ethikkommission unter der Nummer **25 ETHICS-115*
 Bei Beschwerden im Zusammenhang mit der Teilnahme an der Studie können Sie sich an das Sekretariat der Ethikkommission wenden.  
 **Kontakt:** ethics@sl.ethz.ch oder 0041 44 632 85 72.
 
-Bei inhaltlichen oder technischen Fragen zur Umfrage können Sie uns unter **xxx** kontaktieren.
+Bei inhaltlichen oder technischen Fragen zur Umfrage können Sie uns unter **sehitz@ethz.ch** kontaktieren.
 
 Vielen Dank für Ihre Zeit und Teilnahme!
 

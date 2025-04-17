@@ -14,7 +14,7 @@ This study was examined by the ETH Zurich Ethics Commission as proposal **25 ETH
 The secretariat of the ETH Zurich Ethics Committee is available to help you with complaints in connection with your participation.  
 **Contact:** ethics@sl.ethz.ch or 0041 44 632 85 72.
 
-Should you have any questions about the survey or any of the procedures, you can contact us at **xxx**.
+Should you have any questions about the survey or any of the procedures, you can contact us at **sehitz@ethz.ch**.
 
 Thank you for your time and participation!
 

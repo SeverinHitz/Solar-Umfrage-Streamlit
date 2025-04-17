@@ -11,7 +11,7 @@ Ihre Teilnahme an dieser Studie ist völlig freiwillig. Sie können jederzeit ab
 Ihre Antworten werden streng vertraulich behandelt. Ihre Daten werden verschlüsselt und sicher gespeichert. Personenbezogene Daten werden gelöscht, sobald sie für den Zweck der Datenverarbeitung nicht mehr benötigt werden, und alle weiteren Angaben werden anonymisiert (vgl. ETH-Gesetz Art. 36d). Die Ergebnisse dieser Studie werden nur in aggregierter Form veröffentlicht – einzelne Teilnehmende sind nicht identifizierbar. Die gesammelten Daten werden ausschliesslich für akademische Zwecke verwendet (z. B. wissenschaftliche Publikationen). Eine Weitergabe an Dritte erfolgt nicht. Diese Umfrage entspricht dem Bundesgesetz über den Datenschutz (DSG) sowie der Europäischen Datenschutz-Grundverordnung (DSGVO). Mitglieder der Ethikkommission der ETH Zürich können die Originaldaten zu Prüfzwecken einsehen. Die Vertraulichkeit bleibt dabei stets gewahrt. Die Studie wurde von der Ethikkommission der ETH Zürich geprüft, unter dem Protokollnamen **25 ETHICS-115**. Das Sekretariat der Ethikkommission der ETH Zürich ist zuständig für Beschwerden im Zusammenhang mit Ihrer Teilnahme.  
 **Kontakt:** ethics@sl.ethz.ch oder 0041 44 632 85 72.
 
-Bei Fragen zur Umfrage oder zum Vorgehen können Sie sich jederzeit an uns wenden: **xxx**
+Bei Fragen zur Umfrage oder zum Vorgehen können Sie sich jederzeit an uns wenden: **sehitz@ethz.ch**
 
 Vielen Dank für Ihre Zeit und Teilnahme!
 
