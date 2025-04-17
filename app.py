@@ -358,9 +358,7 @@ if stakeholder_typ == "Experte:in":
 
         st.markdown("---")
 
-        st.session_state["consent_given"] = st.checkbox(
-            "Ich habe den obigen Text gelesen und stimme als Umfrageteilnehmer:in zu."
-        )
+        st.session_state["consent_given"] = st.checkbox("Einverstanden")
 
         if st.session_state.get("consent_given"):
             experten_tab()
