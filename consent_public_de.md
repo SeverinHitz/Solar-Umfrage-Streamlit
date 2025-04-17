@@ -4,7 +4,7 @@
 
 Wir, Studierende der ETH Zürich, führen eine Studie durch, um zu verstehen, wo es in hochalpinen Regionen der Schweiz geeignet wäre, Solaranlagen zu installieren – und welche Auswirkungen solche Anlagen auf die Umwelt haben könnten.
 
-Wir möchten Ihre Meinung hören. Sie müssen keine Expertin oder kein Experte sein – diese Umfrage richtet sich an alle, die sich für Natur, Energie oder die Zukunft unserer Berge interessieren. Ihre Antwort hilft uns dabei, besser zu verstehen, wie Solaranlagen Dinge wie Wasser, Pflanzen, Tiere und Erholung in hochalpinen Gebieten beeinflussen könnten. Füllen Sie einfach einen kurzen Online-Fragebogen aus. Die Umfrage dauert etwa **[X] Minuten**. Es gibt keine richtigen oder falschen Antworten – wir interessieren uns nur für Ihre persönliche Sichtweise.
+Wir möchten Ihre Meinung hören. Sie müssen keine Expertin oder kein Experte sein – diese Umfrage richtet sich an alle, die sich für Natur, Energie oder die Zukunft unserer Berge interessieren. Ihre Antwort hilft uns dabei, besser zu verstehen, wie Solaranlagen Dinge wie Wasser, Pflanzen, Tiere und Erholung in hochalpinen Gebieten beeinflussen könnten. Füllen Sie einfach einen kurzen Online-Fragebogen aus. Die Umfrage dauert etwa **5 Minuten**. Es gibt keine richtigen oder falschen Antworten – wir interessieren uns nur für Ihre persönliche Sichtweise.
 
 Ihre Teilnahme an dieser Studie ist völlig freiwillig. Sie können jederzeit abbrechen und müssen keine Fragen beantworten, die Sie nicht beantworten möchten. Es bestehen keine Risiken für Sie. Auch wenn Sie keinen persönlichen Nutzen daraus ziehen, helfen Sie uns dabei, zukünftige Planungen im Bereich Energie und Umwelt zu verbessern.
 
@@ -15,7 +15,7 @@ Bei Fragen zur Umfrage oder zum Vorgehen können Sie sich jederzeit an uns wende
 
 Vielen Dank für Ihre Zeit und Teilnahme!
 
-**Namen der Gruppenmitglieder**
+**Gisin Robin, Hitz Severin, Kristjansdottir Alexandra, Lässer Tobias, Rytz Cedric, Sieger Lara, Wegmann Philippe**
 
 ---
 

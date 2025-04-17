@@ -16,12 +16,12 @@ EXPERTEN_PASSWORT = "Solar"
 # CPT-Kürzel → Klartextname (Dropdown-Anzeige)
 CPT_MAPPINGS = {
     "SR": "Sediment retention",
-    # "FF": "Suitability for Agriculture",
+    "FF": "Suitability for Agriculture",
     "POL": "Pollinator abundance",
-    # "REC": "Recreational potential",
-    # "LI": "Picture taking",
+    "REC": "Recreational potential",
+    "LI": "Picture taking",
     "ID": "Emblematic species",
-    # "CAR": "Carbon stored biomass",
+    "CAR": "Carbon stored biomass",
     "HAB": "Habitat quality",
 }
 
@@ -62,19 +62,25 @@ def speichere_antwort_in_sheet(antwortzeile):
 def set_button_style():
     st.markdown(
         """
-        <style>
+    <style>
+    div[role="radiogroup"] > label {
+        padding: 1rem 1.5rem;
+        margin: 0.5rem 0;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border: 2px solid transparent;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        font-size: 1.1rem;
+    }
+
+    /* Light Mode Styles */
+    @media (prefers-color-scheme: light) {
         div[role="radiogroup"] > label {
             background: #f7f7f7;
-            padding: 1rem 1.5rem;
-            margin: 0.5rem 0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            border: 2px solid transparent;
-            transition: all 0.2s ease-in-out;
-            cursor: pointer;
-            font-size: 1.1rem;
+            color: black;
         }
         div[role="radiogroup"] > label:hover {
             border-color: #4e8cff;
@@ -84,34 +90,34 @@ def set_button_style():
             background-color: #d9eaff !important;
             border-color: #4e8cff;
         }
-        div[role="radiogroup"] svg {
-            width: 1.2rem;
-            height: 1.2rem;
+    }
+
+    /* Dark Mode Styles */
+    @media (prefers-color-scheme: dark) {
+        div[role="radiogroup"] > label {
+            background: #2a2a2a;
+            color: white;
         }
-        </style>
+        div[role="radiogroup"] > label:hover {
+            border-color: #91c2ff;
+            background-color: #3a3a3a;
+        }
+        div[role="radiogroup"] > label[data-selected="true"] {
+            background-color: #1f4e79 !important;
+            border-color: #91c2ff;
+        }
+    }
+
+    div[role="radiogroup"] svg {
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+    </style>
     """,
         unsafe_allow_html=True,
     )
 
 
-# === Consens-Tab ===
-def consent_tab():
-    st.subheader("✅ Zustimmung zur Umfrage")
-
-    try:
-        with open("consent_text_de.md", "r", encoding="utf-8") as file:
-            consent_md = file.read()
-        st.markdown(consent_md)
-    except FileNotFoundError:
-        st.warning("Consent-Datei 'consent_text.md' nicht gefunden.")
-        st.stop()
-    st.markdown("---")
-    st.session_state["consent_given"] = st.checkbox(
-        "Ich habe den obigen Text gelesen und stimme zu."
-    )
-
-
-# === CPT MATRIX TAB ===
 # === CPT MATRIX TAB ===
 def experten_tab():
     st.subheader("🔐 Experten-Zugang")
@@ -146,6 +152,10 @@ def experten_tab():
 
     try:
         st.markdown(f"### Matrix: {selected_label} ({sheet_key})")
+
+        st.markdown(
+            "Bitte wähle für jede Zeile die Option, die deiner Meinung nach die größte Auswirkung hat."
+        )
 
         selection = {}
         for col in df.columns:
@@ -197,7 +207,7 @@ def experten_tab():
 # === Public Tab ===
 def umfrage_tab():
     try:
-        fragen_df = pd.read_csv(FRAGEN_DATEI)
+        fragen_df = pd.read_csv(FRAGEN_DATEI, sep=";")
     except FileNotFoundError:
         st.error(f"Fragen-Datei '{FRAGEN_DATEI}' nicht gefunden.")
         st.stop()
@@ -211,11 +221,20 @@ def umfrage_tab():
 
     st.title("Umfrage: Bedeutung von Landschaftsmerkmalen")
     set_button_style()
-    st.markdown(
-        "Bitte beantworte die folgenden Fragen ehrlich. Es gibt keine richtigen oder falschen Antworten."
-    )
+    st.markdown("""
+**Bitte beantworte die folgenden Fragen. Es gibt keine richtigen oder falschen Antworten.**
+
+👉 In jeder Frage siehst du zwei kurze Beschreibungen von Landschaftsmerkmalen oder Eindrücken, die man in den Alpen erleben kann.  
+Bitte wähle jeweils die Option aus, die **dich persönlich mehr anspricht** – ganz nach deinem Gefühl oder deiner Vorliebe.
+
+So hilfst du uns zu verstehen, welche Eigenschaften einer Landschaft den Menschen besonders wichtig erscheinen – z. B. für Erholung, Artenvielfalt oder Luftqualität.
+""")
 
     st.subheader("Allgemeine Informationen")
+    plz = st.text_input(
+        "Bitte gib die ersten zwei Ziffern deiner Postleitzahl ein:",
+        max_chars=2,
+    )
 
     st.markdown("---")
     st.subheader("Fragen")
@@ -236,6 +255,8 @@ def umfrage_tab():
     if st.button("Antworten absenden"):
         if stakeholder_typ == "Bitte auswählen":
             st.warning("Bitte wähle einen Stakeholder-Typ aus.")
+        if not plz.isdigit() or len(plz) != 2:
+            st.warning("Bitte gib genau zwei Ziffern bei PLZ ein.")
         else:
             haupt_counts = {cat: 0 for cat in alle_hauptkategorien}
             sub_counts = {}
@@ -255,9 +276,10 @@ def umfrage_tab():
             antwortzeile = {
                 "Zeitstempel": datetime.now().isoformat(),
                 "Stakeholder": st.session_state["stakeholder_typ"],
-                "Versorgungsleistungen": haupt_counts["Versorgungsleistungen"],
-                "Regulierungsleistungen": haupt_counts["Regulierungsleistungen"],
-                "Kulturelle Leistungen": haupt_counts["Kulturelle Leistungen"],
+                "PLZ": plz,
+                "Regulation & maintaining": haupt_counts["Regulation & maintaining"],
+                "Cultural services": haupt_counts["Cultural services"],
+                "Provisioning": haupt_counts["Provisioning"],
             }
 
             for sub in alle_subkategorien:
@@ -312,12 +334,8 @@ stakeholder_typ = st.selectbox(
     "Bitte wähle deine Rolle:",
     [
         "Bitte auswählen",
-        "Anwohnende:r",
-        "Landwirt:in",
-        "Tourist:in",
+        "Allgemeinheit",
         "Experte:in",
-        "Naturschützer:in",
-        "Andere",
     ],
 )
 

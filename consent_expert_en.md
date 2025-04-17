@@ -18,7 +18,7 @@ Should you have any questions about the survey or any of the procedures, you can
 
 Thank you for your time and participation!
 
-**Names of team members**
+**Gisin Robin, Hitz Severin, Kristjansdottir Alexandra, Lässer Tobias, Rytz Cedric, Sieger Lara, Wegmann Philippe**
 
 ---
 

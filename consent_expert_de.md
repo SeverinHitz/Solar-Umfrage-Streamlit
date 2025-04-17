@@ -18,7 +18,7 @@ Bei inhaltlichen oder technischen Fragen zur Umfrage können Sie uns unter **xxx
 
 Vielen Dank für Ihre Zeit und Teilnahme!
 
-**Namen der Gruppenmitglieder**
+**Gisin Robin, Hitz Severin, Kristjansdottir Alexandra, Lässer Tobias, Rytz Cedric, Sieger Lara, Wegmann Philippe**
 
 ---
 

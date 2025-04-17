@@ -4,7 +4,7 @@
 
 We, students at ETH Zurich, are conducting a study to understand where it might be suitable to install solar energy systems in high-alpine areas of Switzerland, and how these systems might affect the environment.
 
-We would like to hear your opinion. You don’t need to be an expert – this survey is for anyone interested in nature, energy or the future of our mountains. Your answer will help us understand how people think solar energy might impact things like water, plants, animals, and recreation in high-alpine areas. Just fill out a short online questionnaire. It will take about **[X] minutes** of your time. There are no right or wrong answers – we’re just interested in your views.
+We would like to hear your opinion. You don’t need to be an expert – this survey is for anyone interested in nature, energy or the future of our mountains. Your answer will help us understand how people think solar energy might impact things like water, plants, animals, and recreation in high-alpine areas. Just fill out a short online questionnaire. It will take about **5 minutes** of your time. There are no right or wrong answers – we’re just interested in your views.
 
 Your participation in this study is entirely voluntary. You can stop at any time and don’t have to answer any questions you don’t want to. There are no risks to you, and while you won’t receive any personal benefit, your input will help guide future energy and environmental planning.
 
@@ -15,7 +15,7 @@ Should you have any questions about the survey or any of the procedures, you can
 
 Thank you for your time and participation!
 
-**Namen von Gruppenmitgliedern**
+**Gisin Robin, Hitz Severin, Kristjansdottir Alexandra, Lässer Tobias, Rytz Cedric, Sieger Lara, Wegmann Philippe**
 
 ---
 
