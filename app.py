@@ -309,10 +309,10 @@ So hilfst du uns zu verstehen, welche Eigenschaften einer Landschaft den Mensche
             haupt_counts = {cat: 0 for cat in alle_hauptkategorien}
             sub_counts = {}
 
-            for idx, row in fragen_df.iterrows():
-                frage_key = f"Frage_{idx + 1}"
+            for i, (_, row) in enumerate(fragen_aktiv.iterrows()):
+                frage_key = f"Frage_{i + 1}"
                 if frage_key not in antworten:
-                    continue
+                    continue  # z. B. Frage nicht beantwortet
                 antwort = antworten[frage_key]
                 if antwort == row["Option A"]:
                     sub = row["Subkategorie A"]
