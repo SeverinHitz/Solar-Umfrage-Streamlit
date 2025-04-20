@@ -253,27 +253,35 @@ So hilfst du uns zu verstehen, welche Eigenschaften einer Landschaft den Mensche
     if kurze_umfrage:
         st.info(f"Du erhältst eine verkürzte Umfrage mit {anzahl_kurz} Fragen.")
 
-        # Jede Hauptkategorie gleich oft vertreten (so gut es geht)
         sampled_df = pd.DataFrame()
+        used_indices = set()
         fragen_pro_kategorie = anzahl_kurz // 3
 
         for haupt in ["Provisioning", "Regulation & maintaining", "Cultural services"]:
             fragen_in_kat = fragen_df[
-                (fragen_df["Kategorie A"] == haupt)
-                | (fragen_df["Kategorie B"] == haupt)
+                (
+                    (fragen_df["Kategorie A"] == haupt)
+                    | (fragen_df["Kategorie B"] == haupt)
+                )
+                & (~fragen_df.index.isin(used_indices))
             ]
             sampled = fragen_in_kat.sample(
-                min(fragen_pro_kategorie, len(fragen_in_kat)), random_state=random_state
+                min(fragen_pro_kategorie, len(fragen_in_kat)),
+                random_state=random_state,
             )
+            used_indices.update(sampled.index)
             sampled_df = pd.concat([sampled_df, sampled])
 
-        # Falls noch Fragen fehlen (z. B. durch ungleichmässige Verteilung)
+        # Fill up if still short
         fehlend = anzahl_kurz - len(sampled_df)
         if fehlend > 0:
-            rest = fragen_df.drop(sampled_df.index)
-            sampled_df = pd.concat(
-                [sampled_df, rest.sample(fehlend, random_state=random_state)]
+            rest = fragen_df[~fragen_df.index.isin(used_indices)]
+            sampled_rest = rest.sample(
+                min(fehlend, len(rest)),
+                random_state=random_state,
             )
+            sampled_df = pd.concat([sampled_df, sampled_rest])
+            used_indices.update(sampled_rest.index)
         fragen_aktiv = sampled_df
     else:
         fragen_aktiv = fragen_df
