@@ -5,6 +5,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import matplotlib.pyplot as plt
 import traceback
+import random
 
 # === CONFIG ===
 FRAGEN_DATEI = "implizite_fragen_ecosystem_services.csv"
@@ -238,19 +239,58 @@ So hilfst du uns zu verstehen, welche Eigenschaften einer Landschaft den Mensche
 
     st.markdown("---")
     st.subheader("Fragen")
+
+    # Checkbox für kürzere Umfrage
+    kurze_umfrage = st.checkbox("Ich möchte nur eine verkürzte Umfrage ausfüllen")
+
+    # Anzahl gewünschter Fragen (z. B. 6 Fragen in der kurzen Version)
+    anzahl_kurz = 10
+    if "random_state" not in st.session_state:
+        st.session_state["random_state"] = random.randint(0, 10_000)
+    random_state = st.session_state["random_state"]
+
+    # Fragen vorbereiten
+    if kurze_umfrage:
+        st.info(f"Du erhältst eine verkürzte Umfrage mit {anzahl_kurz} Fragen.")
+
+        # Jede Hauptkategorie gleich oft vertreten (so gut es geht)
+        sampled_df = pd.DataFrame()
+        fragen_pro_kategorie = anzahl_kurz // 3
+
+        for haupt in ["Provisioning", "Regulation & maintaining", "Cultural services"]:
+            fragen_in_kat = fragen_df[
+                (fragen_df["Kategorie A"] == haupt)
+                | (fragen_df["Kategorie B"] == haupt)
+            ]
+            sampled = fragen_in_kat.sample(
+                min(fragen_pro_kategorie, len(fragen_in_kat)), random_state=random_state
+            )
+            sampled_df = pd.concat([sampled_df, sampled])
+
+        # Falls noch Fragen fehlen (z. B. durch ungleichmässige Verteilung)
+        fehlend = anzahl_kurz - len(sampled_df)
+        if fehlend > 0:
+            rest = fragen_df.drop(sampled_df.index)
+            sampled_df = pd.concat(
+                [sampled_df, rest.sample(fehlend, random_state=random_state)]
+            )
+        fragen_aktiv = sampled_df
+    else:
+        fragen_aktiv = fragen_df
+
     antworten = {}
-    for idx, row in fragen_df.iterrows():
+    for i, (_, row) in enumerate(fragen_aktiv.iterrows()):
         frage = row["Frage"]
         optionen = (row["Option A"], row["Option B"])
-        st.markdown(f"**{frage}**")
+        st.markdown(f"**Frage {i + 1}: {frage}**")
         antwort = st.radio(
             frage,
             optionen,
             index=None,
-            key=f"frage_{idx}",
+            key=f"frage_{i}",  # i ist garantiert eindeutig und fortlaufend
             label_visibility="collapsed",
         )
-        antworten[f"Frage_{idx + 1}"] = antwort
+        antworten[f"Frage_{i + 1}"] = antwort
 
     if st.button("Antworten absenden"):
         if stakeholder_typ == "Bitte auswählen":
@@ -263,6 +303,8 @@ So hilfst du uns zu verstehen, welche Eigenschaften einer Landschaft den Mensche
 
             for idx, row in fragen_df.iterrows():
                 frage_key = f"Frage_{idx + 1}"
+                if frage_key not in antworten:
+                    continue
                 antwort = antworten[frage_key]
                 if antwort == row["Option A"]:
                     sub = row["Subkategorie A"]
