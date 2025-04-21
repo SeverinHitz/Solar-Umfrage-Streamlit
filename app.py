@@ -137,7 +137,7 @@ def experten_tab():
 
     reverse_mapping = {v: k for k, v in CPT_MAPPINGS.items()}
     selected_label = st.selectbox(
-        "Wähle einen Ecosystem Service", list(CPT_MAPPINGS.values())
+        "Wählen Sie einen Ecosystem Service", list(CPT_MAPPINGS.values())
     )
     sheet_key = reverse_mapping[selected_label]
 
@@ -206,6 +206,9 @@ def experten_tab():
 
             sheet.append_row([antwortzeile.get(h, "") for h in headers])
             st.success(f"Matrix '{selected_label}' erfolgreich gespeichert!")
+            st.info(
+                "Vielen Dank für Ihre Teilnahme! Sie können im Dropdown weitere Ecosystem Services auswählen, um weitere Matrizen auszufüllen."
+            )
         except Exception as e:
             traceback.print_exc()
             st.error("Fehler beim Verarbeiten oder Speichern der Matrix.")
