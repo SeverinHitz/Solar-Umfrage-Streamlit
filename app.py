@@ -16,13 +16,15 @@ CREDENTIALS_FILE = "credentials.json"
 EXPERTEN_PASSWORT = "Solar"
 # CPT-Kürzel → Klartextname (Dropdown-Anzeige)
 CPT_MAPPINGS = {
-    "SR": "Sediment retention",
     "FF": "Suitability for Agriculture",
-    "POL": "Pollinator abundance",
+    "MAT": "Wood Provision Potential",
+    "WY": "Annual Water Yield",
     "REC": "Recreational potential",
     "LI": "Picture taking",
     "ID": "Emblematic species",
+    "SR": "Sediment retention",
     "CAR": "Carbon stored biomass",
+    "AIR": "Removal of PM10 by vegetation",
     "HAB": "Habitat quality",
 }
 
@@ -154,14 +156,18 @@ def experten_tab():
     try:
         st.markdown(f"### Matrix: {selected_label} ({sheet_key})")
 
+        df_info = pd.read_csv("ecosystem_service_beschreibungen.csv", sep=";")
+        beschreibung = df_info[df_info["Code"] == sheet_key]["Description"].values[0]
+        st.info(f"ℹ️ {beschreibung}")
+
         st.markdown(
-            "Bitte wähle für jede Zeile die Option, die deiner Meinung nach die größte Auswirkung hat."
+            "Bitte wählen Sie für jede Zeile die Option, die Ihrer Meinung nach die grösste Auswirkung hat."
         )
 
         selection = {}
         for col in df.columns:
             st.markdown(
-                f"**Wie schätzt du die Auswirkungen ein, wenn der dargebotene Ecosystem Service `{selected_label}` `{col}` ist?**"
+                f"**Wie schätzen Sie die Auswirkungen ein, wenn der dargebotene Ecosystem Service {selected_label} `{col}` ist?**"
             )
             zeilenoptionen = df.index.tolist()
             # Default: erste Option ausgewählt
